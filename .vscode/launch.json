@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug with Clang (MSVC)",
+      "type": "cppvsdbg",  // Используем отладчик MSVC, т.к. LLDB может не работать с MSVC!
+      "request": "launch",
+      "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "externalTerminal",
+      "preLaunchTask": "Build with Clang (MSVC)"
+    }
+  ]
+}

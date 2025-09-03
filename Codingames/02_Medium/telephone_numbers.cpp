@@ -44,7 +44,6 @@ int main()
     int n;
     cin >> n; cin.ignore();
     TelephoneNumbers numbers = TelephoneNumbers();
-    int all_digits = 0;
     for (int i = 0; i < n; i++) {
         string telephone;
         cin >> telephone; cin.ignore();
