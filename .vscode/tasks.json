@@ -17,7 +17,8 @@
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}.exe",
         "-lmsvcrt",
-        "-g"
+        "-g",
+        "-O0"
       ],
       "group": {
         "kind": "build",
