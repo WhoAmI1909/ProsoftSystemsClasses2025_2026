@@ -3,6 +3,10 @@
         "iostream": "cpp",
         "vector": "cpp",
         "xstring": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "ostream": "cpp",
+        "map": "cpp",
+        "xtree": "cpp",
+        "cstdlib": "cpp"
     }
 }
