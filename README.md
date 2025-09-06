@@ -7,6 +7,7 @@
 2.  [Medium](#2-medium)
     * 2.1. [Telephone Numbers](#21-telephone-numbers)
     * 2.2. [Pachinko Jackpot](#22-pachinko-jackpot)
+    * 2.3. [Don't Panic, Episode 1](#23-dont-panic-episode-1)
 3.  [Задачи Hard](#задачи-hard)
 
 ---
