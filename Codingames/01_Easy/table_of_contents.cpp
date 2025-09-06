@@ -11,10 +11,10 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 struct Entry {
-    string title;
-    string page;
-    int level;
-    int number;
+    string title;   // Заголовок
+    string page;    // Страница
+    int level;      // Уровень вложенности
+    int number;     // Номер во вложенности
 };
 
 string exchange_tab_to_space(const string& str) {
