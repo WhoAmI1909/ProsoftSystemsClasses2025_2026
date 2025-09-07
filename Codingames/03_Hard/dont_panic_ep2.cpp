@@ -6,45 +6,68 @@
 
 using namespace std;
 
-int SearchElevator(map<int, vector<int>> elevatorsMap, int clone_pos, int clone_floor) { 
-    if(elevatorsMap.find(clone_floor) != elevatorsMap.end()) {
-        vector<int> elevators = elevatorsMap[clone_floor];
-        int idx_closest_elevator = 0;
+int SearchElevator(
+    map<int, vector<int>>* elevatorsMap,
+    int clone_pos,
+    int clone_floor
+) {
+    int idx_closest_elevator = -1;
+    if ((*elevatorsMap).find(clone_floor) != (*elevatorsMap).end()) {
+        vector<int> elevators = (*elevatorsMap)[clone_floor];
         int distance_to_closest_elevator = 100;
-        for(int i = 0; i < elevators.size(); i++) {
+        for (int i = 0; i < elevators.size(); i++) {
             if (abs(elevators[i] - clone_pos) < distance_to_closest_elevator) {
                 distance_to_closest_elevator = abs(elevators[i] - clone_pos);
                 idx_closest_elevator = i;
             }
         }
-        return idx_closest_elevator;
     }
-    else { return -1;}
+    return idx_closest_elevator;
 }
 
 void AnalyzeClonePos(int pos, int clone_pos, string direction) {
-    if (((clone_pos > pos) &&(direction == "RIGHT")) ||
+    if (((clone_pos > pos) && (direction == "RIGHT")) ||
         ((clone_pos < pos) && (direction == "LEFT"))) {
-            cout << "BLOCK" << endl;
-        }
-    else {cout << "WAIT" << endl;}
+        cout << "BLOCK" << endl;
+    }
+    else { cout << "WAIT" << endl; }
 }
 
 void AnalyzeElevatorPos(
-    map<int, vector<int>> elevatorsMap, 
+    map<int, vector<int>> *elevatorsMap,
     int elevator_idx,
     int clone_pos,
     int clone_floor,
     string direction,
-    int *nb_additional_elevators
+    int* nb_additional_elevators,
+    int* extra_elevators,
+    int width
 ) {
     if (elevator_idx == -1) {
         cout << "ELEVATOR" << endl;
         (*nb_additional_elevators)--;
+        (*elevatorsMap)[clone_floor].push_back(clone_pos);
     }
     else {
-        AnalyzeClonePos(elevatorsMap[clone_floor][elevator_idx], clone_pos, direction);
+        int closest_distance_to_board = clone_pos < width - clone_pos ? clone_pos : width - clone_pos;
+        if (((*extra_elevators) > 0) && (closest_distance_to_board < abs((*elevatorsMap)[clone_floor][elevator_idx] - clone_pos))) {
+            cout << "ELEVATOR" << endl;
+            (*extra_elevators)--;
+            (*elevatorsMap)[clone_floor].push_back(clone_pos);
+            return;
+        }
+        AnalyzeClonePos((*elevatorsMap)[clone_floor][elevator_idx], clone_pos, direction);
     }
+}
+
+int define_extra_elevators(int floors, int nb_additional_elevators, map<int, vector<int>> elevatorsMap) {
+    int neccesary_elevators = 0;
+    for (int i = 0; i < floors - 1; i++) {
+        if (elevatorsMap.find(i) == elevatorsMap.end()) {
+            neccesary_elevators++;
+        }
+    }
+    return nb_additional_elevators - neccesary_elevators;
 }
 
 int main()
@@ -57,33 +80,34 @@ int main()
     int nb_total_clones; // number of generated clones
     int nb_additional_elevators; // number of additional elevators that you can build
     int nb_elevators; // number of elevators
-    
+
     cin >> nb_floors >> width >> nb_rounds >> exit_floor >> exit_pos >> nb_total_clones >> nb_additional_elevators >> nb_elevators; cin.ignore();
-    
-    int *p_nb_additional_elevators = &nb_additional_elevators;
-    map<int, vector<int>> elevatorsMap;
-    
+
+    int* p_nb_additional_elevators = &nb_additional_elevators;
+    map<int, vector<int>> *elevatorsMap = new map<int, vector<int>>();
+
     for (int i = 0; i < nb_elevators; i++) {
         int elevator_floor; // floor on which this elevator is found
         int elevator_pos; // position of the elevator on its floor
         cin >> elevator_floor >> elevator_pos; cin.ignore();
-        elevatorsMap[elevator_floor].push_back(elevator_pos);
+        (*elevatorsMap)[elevator_floor].push_back(elevator_pos);
     }
-    bool isBlocked = false;
+    int extra_elevators = define_extra_elevators(nb_floors, nb_additional_elevators, *elevatorsMap);
     // game loop
     while (1) {
         int clone_floor; // floor of the leading clone
         int clone_pos; // position of the leading clone on its floor
         string direction; // direction of the leading clone: LEFT or RIGHT
         cin >> clone_floor >> clone_pos >> direction; cin.ignore();
-        if(clone_floor == exit_floor) {
+        if(clone_floor == -1) {
+            cout << "WAIT" << endl;
+        }
+        else if (clone_floor == exit_floor) {
             AnalyzeClonePos(exit_pos, clone_pos, direction);
         }
         else {
             int elevator_idx = SearchElevator(elevatorsMap, clone_pos, clone_floor);
-            AnalyzeElevatorPos(elevatorsMap, elevator_idx, clone_pos, clone_floor, direction);
+            AnalyzeElevatorPos(elevatorsMap, elevator_idx, clone_pos, clone_floor, direction, p_nb_additional_elevators, &extra_elevators, width);
         }
-
-        cout << "WAIT" << endl; // action: WAIT or BLOCK
     }
 }
