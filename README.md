@@ -8,7 +8,8 @@
     * 2.1. [Telephone Numbers](#21-telephone-numbers)
     * 2.2. [Pachinko Jackpot](#22-pachinko-jackpot)
     * 2.3. [Don't Panic, Episode 1](#23-dont-panic-episode-1)
-3.  [Задачи Hard](#задачи-hard)
+3.  [Задачи Hard](#3-hard)
+    * 3.1. [Don't Panic, Episode 2](#31-dont-panic-episode-2)
 
 ---
 
@@ -169,8 +170,11 @@ int max_prize(int **matrix, int dimensions_size, int currRow, int currCol, int s
 Если клон находится на любом другом этаже, то выполняется анализ расположения лифта на этаже.
 
 
-### Задачи Hard
+### 3. Hard
 
-#### Название первой сложной задачи
+#### 3.1. Don't Panic, Episode 2
+Решение представлено в файле [dont_panic_ep2.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/dont_panic_ep2.cpp).
+
+Ссылка на саму задачу: [Don't Panic, Episode 2](https://www.codingame.com/training/hard/don't-panic-episode-2).
 
 #### Название второй сложной задачи
