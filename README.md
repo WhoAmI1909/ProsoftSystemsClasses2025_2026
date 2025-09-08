@@ -10,6 +10,7 @@
     * 2.3. [Don't Panic, Episode 1](#23-dont-panic-episode-1)
 3.  [Задачи Hard](#3-hard)
     * 3.1. [Don't Panic, Episode 2](#31-dont-panic-episode-2)
+    * 3.2. [Death First Search, Episode 2](#32-death-first-search-episode-2)
 
 ---
 
@@ -177,4 +178,7 @@ int max_prize(int **matrix, int dimensions_size, int currRow, int currCol, int s
 
 Ссылка на саму задачу: [Don't Panic, Episode 2](https://www.codingame.com/training/hard/don't-panic-episode-2).
 
-#### Название второй сложной задачи
+#### 3.2. Death First Search, Episode 2
+Решение представлено в файле [death_first_search_ep2.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/death_first_search_ep2.cpp).
+
+Ссылка на саму задачу: [Death First Search, Episode 2](https://www.codingame.com/ide/puzzle/death-first-search-episode-2).
