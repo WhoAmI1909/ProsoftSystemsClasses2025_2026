@@ -4,6 +4,7 @@
 
 1.  [Easy](#1-easy)
     * 1.1. [Table Of Contents](#11-table-of-contents)
+    * 1.2. [Logic Gates](#12-logic-gates)
 2.  [Medium](#2-medium)
     * 2.1. [Telephone Numbers](#21-telephone-numbers)
     * 2.2. [Pachinko Jackpot](#22-pachinko-jackpot)
@@ -57,6 +58,13 @@ string formatter(Entry entry, int lengthofline) {
 }
 ```
 Функция `exchange_tab_to_space` заменяет входные символы `>` на пустую строку.
+
+### 1.2. Logic Gates
+Решение представлено в файле [logic_signals.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/01_Easy/logic_signals.cpp).
+
+Ссылка на саму задачу: [Logic Gates](https://www.codingame.com/training/easy/logic-gates).
+
+Решение основано на поэлементном разборе входящих сигналов, их преобразовании в логическую величину с последующей обработкой логической операции. По имени определяется последовательность входного сигнала. 
 
 ### 2. Medium
 В данном разделе описаны задачи с уровнем `Medium` с сайта codingame.com.
