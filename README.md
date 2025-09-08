@@ -157,7 +157,20 @@ int max_prize(int **matrix, int dimensions_size, int currRow, int currCol, int s
 
 Ссылка на саму задачу: [Don't Panic, Episode 1](https://www.codingame.com/training/medium/don't-panic-episode-1).
 
-`TODO`
+Решение основано на постоянной проверки текущего расположения клона относительно его цели: лифта или выхода.
+В зависимости от этого, выполняется переход в нужную ячейку.
+
+Для этой цели была написана функция:
+```cpp
+void AnalyzeClonePos(int pos, int clone_pos, string direction) {
+    if (((clone_pos > pos) && (direction == "RIGHT")) ||
+        ((clone_pos < pos) && (direction == "LEFT"))) {
+        cout << "BLOCK" << endl;
+    }
+    else { cout << "WAIT" << endl; }	
+}
+```
+Она выполняет анализ местоположения объектов на этаже и текущего направления движения клона.
 
 
 ### 3. Hard
@@ -167,11 +180,134 @@ int max_prize(int **matrix, int dimensions_size, int currRow, int currCol, int s
 
 Ссылка на саму задачу: [Don't Panic, Episode 2](https://www.codingame.com/training/hard/don't-panic-episode-2).
 
-`TODO`
+Решение имеет в основе тот же подход, что и в задаче `Don't Panic, Episode 1`.
+Так как лифта может не оказаться на этаже, была создана функция, которая выполняет поиск лифта. Она возвращает индекс лифта.
+
+```cpp
+int SearchElevator(
+    map<int, vector<int>>* elevatorsMap,
+    int clone_pos,
+    int clone_floor
+) {
+    int idx_closest_elevator = -1;
+    if ((*elevatorsMap).find(clone_floor) != (*elevatorsMap).end()) {
+        vector<int> elevators = (*elevatorsMap)[clone_floor];
+        int distance_to_closest_elevator = 100;
+        for (int i = 0; i < elevators.size(); i++) {
+            if (abs(elevators[i] - clone_pos) < distance_to_closest_elevator) {
+                distance_to_closest_elevator = abs(elevators[i] - clone_pos);
+                idx_closest_elevator = i;
+            }
+        }
+    }
+    return idx_closest_elevator;
+}
+```
+
+Так как в задаче присутствует возможность возведения дополнительных точек подъема на следующий этаж, необходимо вести учет количество лифтов, которые можно использовать для более оптимального подъема по этажам. Для этого введена функция:
+```cpp
+int define_extra_elevators(int floors, int nb_additional_elevators, map<int, vector<int>> elevatorsMap) {
+    int neccesary_elevators = 0;
+    for (int i = 0; i < floors - 1; i++) {
+        if (elevatorsMap.find(i) == elevatorsMap.end()) {
+            neccesary_elevators++;
+        }
+    }
+    return nb_additional_elevators - neccesary_elevators;
+}
+```
+
+Также дополнительно добавлена функция, которая обрабатывает случаи с лифтами.
+* Если лифта нет, то на месте клона возводится новый лифт, который далее вносится в общий список, чтобы корректно учитывать существующие лифты.
+* Если несколько лифтов на этаже, то берется ближайший к клону.
+* Также выполняется анализ расстояния до ближайшего лифта. Если он больше, чем расстояние до ближайшей границе карты, то при избытке дополнительных лифтов возводится новый на месте лидирующего клона.
+
+```cpp
+void AnalyzeElevatorPos(
+    map<int, vector<int>> *elevatorsMap,
+    int elevator_idx,
+    int clone_pos,
+    int clone_floor,
+    string direction,
+    int* nb_additional_elevators,
+    int* extra_elevators,
+    int width
+) {
+    if (elevator_idx == -1) {
+        cout << "ELEVATOR" << endl;
+        (*nb_additional_elevators)--;
+        (*elevatorsMap)[clone_floor].push_back(clone_pos);
+    }
+    else {
+        int closest_distance_to_board = clone_pos < width - clone_pos ? clone_pos : width - clone_pos;
+        if (((*extra_elevators) > 0) && (closest_distance_to_board < abs((*elevatorsMap)[clone_floor][elevator_idx] - clone_pos))) {
+            cout << "ELEVATOR" << endl;
+            (*extra_elevators)--;
+            (*elevatorsMap)[clone_floor].push_back(clone_pos);
+            return;
+        }
+        AnalyzeClonePos((*elevatorsMap)[clone_floor][elevator_idx], clone_pos, direction);
+    }
+}
+```
+
+Из минусов решения, не выполняется поиск оптимального пути до выхода, ввиду чего не проходят все тесты.
+
 
 #### 3.2. Death First Search, Episode 2
 Решение представлено в файле [death_first_search_ep2.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/death_first_search_ep2.cpp).
 
 Ссылка на саму задачу: [Death First Search, Episode 2](https://www.codingame.com/ide/puzzle/death-first-search-episode-2).
 
-`TODO`
+Задача решается с использованием поиска в ширину.
+
+Структура каждого узла представляет собой множество индексов связанных узлов: как между простыми, так и между выходами.
+```cpp
+struct Node {
+    set<int> links;
+    set<int> links_to_gateways;
+};
+```
+
+Основной функцией является `pair<int, int> BFS(vector<Node> &graph, int BobNet_node_id)`, которая выполняет поиск в ширину и возвращает пару индексов узлов, связь между которыми необходимо отключить.
+```cpp
+pair<int, int> BFS(vector<Node> &graph, int BobNet_node_id) {
+    vector<bool> visited_nodes(graph.size(), false);
+    queue<int> q;
+    q.push(BobNet_node_id);
+
+    visited_nodes[BobNet_node_id] = true;
+    int selectedNode = -1;
+
+    while (!q.empty()) {
+        int node_id = q.front();
+        q.pop();
+        Node node = graph[node_id];
+        visited_nodes[node_id] = true;
+
+        const auto push_neighbours = [&node, &q, &visited_nodes]() { 
+            for (const int& node_id : node.links) {
+                if (!visited_nodes[node_id]) q.push(node_id);
+            }
+        };
+
+        if (node.links_to_gateways.size() > 1) {
+            selectedNode = node_id;
+            break;
+        }
+        else if (node.links_to_gateways.size() == 1) {
+            if (selectedNode == -1) {
+                selectedNode = node_id;
+                if (node_id == BobNet_node_id) break;
+            }
+            push_neighbours();
+        }
+        else if(selectedNode == -1) push_neighbours();
+    }
+    return make_pair(selectedNode, *(graph[selectedNode].links_to_gateways.begin()));
+}
+```
+
+Приоритет отдается узлам, у которых есть связь с несколькими выходами. Они изолируются в первую очередь.
+
+Поиск заканчивается тогда, когда был найден узел, у которого есть связь с выходом.

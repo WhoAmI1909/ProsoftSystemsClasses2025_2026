@@ -10,6 +10,7 @@
         "cstdlib": "cpp",
         "queue": "cpp",
         "set": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "utility": "cpp"
     }
 }
