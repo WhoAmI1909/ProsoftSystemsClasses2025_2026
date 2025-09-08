@@ -9,6 +9,7 @@
         "xtree": "cpp",
         "cstdlib": "cpp",
         "queue": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "algorithm": "cpp"
     }
 }

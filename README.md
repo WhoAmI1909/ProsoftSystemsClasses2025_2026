@@ -157,18 +157,7 @@ int max_prize(int **matrix, int dimensions_size, int currRow, int currCol, int s
 
 Ссылка на саму задачу: [Don't Panic, Episode 1](https://www.codingame.com/training/medium/don't-panic-episode-1).
 
-Решение основано на постоянном анализе условий ограничения движения клонов.
-
-Для этого были созданы три функции:
-* `isBlockBound(int clone_pos, int width, string direction)`: определение края карты;
-* `isBlockExit(int clone_pos, int exit_pos, string direction)`: определение расположения выхода относительно расположения основного персонажа;
-* `isBlockElevator(int *ElevatorPos, int clone_pos, int clone_floor, string direction)`: определение расположения лифта относительно расположения основного персонажа.
-
-Каждая из них возвращает `true` или `false` в зависимости от наличия ограничений.
-
-В первую очередь определяется допустимость области передвижения по карте с помощью функции `isBlockBound`. Если область передвижения не допустима, то клон останавливается.
-Далее определяется, находится ли клон на этаже с выходом. Если да, то определяется, где находится клон относительно выхода.
-Если клон находится на любом другом этаже, то выполняется анализ расположения лифта на этаже.
+`TODO`
 
 
 ### 3. Hard
@@ -178,7 +167,11 @@ int max_prize(int **matrix, int dimensions_size, int currRow, int currCol, int s
 
 Ссылка на саму задачу: [Don't Panic, Episode 2](https://www.codingame.com/training/hard/don't-panic-episode-2).
 
+`TODO`
+
 #### 3.2. Death First Search, Episode 2
 Решение представлено в файле [death_first_search_ep2.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/death_first_search_ep2.cpp).
 
 Ссылка на саму задачу: [Death First Search, Episode 2](https://www.codingame.com/ide/puzzle/death-first-search-episode-2).
+
+`TODO`
