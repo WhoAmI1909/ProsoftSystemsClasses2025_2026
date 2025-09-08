@@ -7,6 +7,8 @@
         "ostream": "cpp",
         "map": "cpp",
         "xtree": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "queue": "cpp",
+        "set": "cpp"
     }
 }
