@@ -181,91 +181,6 @@ void AnalyzeClonePos(int pos, int clone_pos, string direction) {
 ```
 Она выполняет анализ местоположения объектов на этаже и текущего направления движения клона.
 
-#### 2.4 Chess Cavalry
-Решение представлено в файле [chess_cavalry.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/02_Medium/chess_cavalry.cpp).
-
-Ссылка на саму задачу: [Chess Cavalry](https://www.codingame.com/training/medium/chess-cavalry).
-
-Задача заключается в поиске кратчайшего пути до точки назначения, учитывая возможные препятствия на шахматной доске.
-Были написаны две функции.
-Первая выполняет поиск стартовой позиции `Knight`.
-```cpp
-pair<int, int> find_knight_position(vector<string> board) {
-    for (int i = 0; i < board.size(); i++) {
-        for (int j = 0; j < board[i].length(); j++) {
-            if (board[i][j] == 'B') {
-                return make_pair(i, j);
-            }
-        }
-    }
-    return make_pair(-1, -1);
-};
-```
-Вторая функция реализует непосредственно сам алгоритм поиска. В его основе лежит поиск в ширину.
-```cpp
-void find_path(vector<string> board, pair<int, int> knight_position, int w, int h) {
-    int possible_moves[8][2] = { {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1} };
-    
-    // Создаем матрицу для хранения расстояний
-    vector<vector<int>> distance(h, vector<int>(w, 0));
-    distance[knight_position.first][knight_position.second] = 0;
-
-    // Создается матрица посещаемых клеток
-    vector<vector<bool>> visited(h, vector<bool>(w, false));
-    visited[knight_position.first][knight_position.second] = true;
-
-    pair<int, int> target_pos = { -1, -1 };
-    int turns = 0;
-    queue<pair<int, int>> q;
-    bool is_path_found = false;
-
-    q.push(knight_position);
-    while (!q.empty()) {
-        auto current = q.front();
-        q.pop();
-        int x = current.first;
-        int y = current.second;
-        // Если нашли цель
-        if (board[x][y] == 'E') {
-            target_pos = { x, y };
-            is_path_found = true;
-            break;
-        }
-        // Проверяем все возможные ходы рыцаря
-        for (int i = 0; i < 8; i++) {
-            int new_x = x + possible_moves[i][0];
-            int new_y = y + possible_moves[i][1];
-
-            // Проверяем границы доски
-            if (new_x >= 0 && new_x < h && new_y >= 0 && new_y < w) {
-                // Проверяем, можно ли встать на клетку (не препятствие)
-                if (board[new_x][new_y] != '#' && !visited[new_x][new_y]) {
-
-                    distance[new_x][new_y] = distance[x][y] + 1;
-                    visited[new_x][new_y] = true;
-                    q.push({ new_x, new_y });
-                }
-            }
-        }
-    }
-    if (!is_path_found) {
-        cout << "Impossible" << endl;
-    }
-    else {
-        cout << distance[target_pos.first][target_pos.second] << endl;
-    }
-}
-```
-
-Были созданы две вспомогательные таблицы данных: `distance` и `visited`.
-* `distance` хранит расстояние от начальной позиции до каждой клетки доски.
-* `visited` хранит информацию о том, была ли клетка посещена.
-
-Поочередно рассматриваются все возможные ходы рыцаря и проверяется, можно ли встать на клетку (не препятствие).
-Если да, то клетка помечается как посещенная и расстояние до нее увеличивается на 1.
-Если клетка является целью, то расстояние до нее вычисляется и выводится на экран.
-Если цель не найдена, выводится сообщение об этом.
-
 ### 3. Hard
 
 #### 3.1. Don't Panic, Episode 2
@@ -404,3 +319,88 @@ pair<int, int> BFS(vector<Node> &graph, int BobNet_node_id) {
 Приоритет отдается узлам, у которых есть связь с несколькими выходами. Они изолируются в первую очередь.
 
 Поиск заканчивается тогда, когда был найден узел, у которого есть связь с выходом.
+
+#### 3.3 Chess Cavalry
+Решение представлено в файле [chess_cavalry.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/chess_cavalry.cpp).
+
+Ссылка на саму задачу: [Chess Cavalry](https://www.codingame.com/training/hard/chess-cavalry).
+
+Задача заключается в поиске кратчайшего пути до точки назначения, учитывая возможные препятствия на шахматной доске.
+Были написаны две функции.
+Первая выполняет поиск стартовой позиции `Knight`.
+```cpp
+pair<int, int> find_knight_position(vector<string> board) {
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j < board[i].length(); j++) {
+            if (board[i][j] == 'B') {
+                return make_pair(i, j);
+            }
+        }
+    }
+    return make_pair(-1, -1);
+};
+```
+Вторая функция реализует непосредственно сам алгоритм поиска. В его основе лежит поиск в ширину.
+```cpp
+void find_path(vector<string> board, pair<int, int> knight_position, int w, int h) {
+    int possible_moves[8][2] = { {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1} };
+    
+    // Создаем матрицу для хранения расстояний
+    vector<vector<int>> distance(h, vector<int>(w, 0));
+    distance[knight_position.first][knight_position.second] = 0;
+
+    // Создается матрица посещаемых клеток
+    vector<vector<bool>> visited(h, vector<bool>(w, false));
+    visited[knight_position.first][knight_position.second] = true;
+
+    pair<int, int> target_pos = { -1, -1 };
+    int turns = 0;
+    queue<pair<int, int>> q;
+    bool is_path_found = false;
+
+    q.push(knight_position);
+    while (!q.empty()) {
+        auto current = q.front();
+        q.pop();
+        int x = current.first;
+        int y = current.second;
+        // Если нашли цель
+        if (board[x][y] == 'E') {
+            target_pos = { x, y };
+            is_path_found = true;
+            break;
+        }
+        // Проверяем все возможные ходы рыцаря
+        for (int i = 0; i < 8; i++) {
+            int new_x = x + possible_moves[i][0];
+            int new_y = y + possible_moves[i][1];
+
+            // Проверяем границы доски
+            if (new_x >= 0 && new_x < h && new_y >= 0 && new_y < w) {
+                // Проверяем, можно ли встать на клетку (не препятствие)
+                if (board[new_x][new_y] != '#' && !visited[new_x][new_y]) {
+
+                    distance[new_x][new_y] = distance[x][y] + 1;
+                    visited[new_x][new_y] = true;
+                    q.push({ new_x, new_y });
+                }
+            }
+        }
+    }
+    if (!is_path_found) {
+        cout << "Impossible" << endl;
+    }
+    else {
+        cout << distance[target_pos.first][target_pos.second] << endl;
+    }
+}
+```
+
+Были созданы две вспомогательные таблицы данных: `distance` и `visited`.
+* `distance` хранит расстояние от начальной позиции до каждой клетки доски.
+* `visited` хранит информацию о том, была ли клетка посещена.
+
+Поочередно рассматриваются все возможные ходы рыцаря и проверяется, можно ли встать на клетку (не препятствие).
+Если да, то клетка помечается как посещенная и расстояние до нее увеличивается на 1.
+Если клетка является целью, то расстояние до нее вычисляется и выводится на экран.
+Если цель не найдена, выводится сообщение об этом.
