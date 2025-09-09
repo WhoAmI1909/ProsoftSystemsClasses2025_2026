@@ -9,10 +9,10 @@
     * 2.1. [Telephone Numbers](#21-telephone-numbers)
     * 2.2. [Pachinko Jackpot](#22-pachinko-jackpot)
     * 2.3. [Don't Panic, Episode 1](#23-dont-panic-episode-1)
-    * 2.4. [Chess Cavalry](#24-chess-cavalry)
 3.  [Задачи Hard](#3-hard)
     * 3.1. [Don't Panic, Episode 2](#31-dont-panic-episode-2)
     * 3.2. [Death First Search, Episode 2](#32-death-first-search-episode-2)
+    * 3.3. [Chess Cavalry](#33-chess-cavalry)
 
 ---
 
