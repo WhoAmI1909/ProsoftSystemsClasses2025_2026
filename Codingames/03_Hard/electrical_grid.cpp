@@ -23,7 +23,6 @@ struct Link {
     }
 };
 
-// Функция для поиска корня компоненты связности
 int find_root(map<int, int>& initial_components, int x) {
     if (initial_components[x] != x) {
         initial_components[x] = find_root(initial_components, initial_components[x]);
@@ -40,7 +39,6 @@ void get_minimal_links(vector<Link> links, map<int, int>& initial_components) {
         int root1 = find_root(initial_components, link.house_1);
         int root2 = find_root(initial_components, link.house_2);
         
-        // Если узлы в разных компонентах связности
         if (root1 != root2) {
             initial_components[root2] = root1;
             links_cost += link.cost;
@@ -48,6 +46,7 @@ void get_minimal_links(vector<Link> links, map<int, int>& initial_components) {
             necessary_links.push_back(link);
         }
     }
+    
     cout << links_count << ' ' << links_cost << endl;
     sort(necessary_links.begin(), necessary_links.end());
     for(Link link: necessary_links) {
