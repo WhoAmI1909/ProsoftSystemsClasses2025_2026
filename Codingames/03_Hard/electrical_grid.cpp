@@ -12,7 +12,10 @@ struct Link {
     int cost;
 
     bool operator<(const Link& other) {
-        return this->cost < other.cost;
+    if (this->house_1 != other.house_1) {
+        return this->house_1 < other.house_1;
+    }
+        return this->house_2 < other.house_2;
     }
 
     void print() {
@@ -21,51 +24,32 @@ struct Link {
 };
 
 // Функция для поиска корня компоненты связности
-int find_root(map<int, int>& parent, int x) {
-    if (parent[x] != x) {
-        parent[x] = find_root(parent, parent[x]);
+int find_root(map<int, int>& initial_components, int x) {
+    if (initial_components[x] != x) {
+        initial_components[x] = find_root(initial_components, initial_components[x]);
     }
-    return parent[x];
+    return initial_components[x];
 }
 
-// Объединение двух компонент связности
-void union_components(map<int, int>& parent, int x, int y) {
-    int root_x = find_root(parent, x);
-    int root_y = find_root(parent, y);
-    if (root_x != root_y) {
-        parent[root_y] = root_x;
-    }
-}
-
-void get_minimal_links(vector<Link> links, map<int, int> initial_components) {
-     // Создаем структуру для Union-Find
-    map<int, int> parent;
-    for (auto& comp : initial_components) {
-        parent[comp.first] = comp.first; // Изначально каждый узел - корень сам себе
-    }
-    
-    // Сортируем связи по стоимости (алгоритм Крускала)
-    sort(links.begin(), links.end(), [](const Link& a, const Link& b) {
-        return a.cost < b.cost;
-    });
-    
+void get_minimal_links(vector<Link> links, map<int, int>& initial_components) {    
     int links_cost = 0;
     int links_count = 0;
     vector<Link> necessary_links;
     
     for (const Link& link : links) {
-        int root1 = find_root(parent, link.house_1);
-        int root2 = find_root(parent, link.house_2);
+        int root1 = find_root(initial_components, link.house_1);
+        int root2 = find_root(initial_components, link.house_2);
         
         // Если узлы в разных компонентах связности
         if (root1 != root2) {
-            union_components(parent, link.house_1, link.house_2);
+            initial_components[root2] = root1;
             links_cost += link.cost;
             links_count++;
             necessary_links.push_back(link);
         }
     }
     cout << links_count << ' ' << links_cost << endl;
+    sort(necessary_links.begin(), necessary_links.end());
     for(Link link: necessary_links) {
         link.print();
     }
@@ -91,6 +75,8 @@ int main()
     }
 
     // Сортировка по "Весу" электрической связи
-    sort(links.begin(), links.end());
+    sort(links.begin(), links.end(), [](const Link& a, const Link& b) {
+        return a.cost < b.cost;
+    });
     get_minimal_links(links, connected_components);    
 }
