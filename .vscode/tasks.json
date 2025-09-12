@@ -11,12 +11,10 @@
         "--target=x86_64-pc-windows-msvc",
         "-std=c++20",
         "-Wall",
-        "-O2",
         "-MD",
         "${file}",
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}.exe",
-        "-lmsvcrt",
         "-g",
         "-O0"
       ],
