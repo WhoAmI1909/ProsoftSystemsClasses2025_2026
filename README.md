@@ -13,6 +13,7 @@
     * 3.1. [Don't Panic, Episode 2](#31-dont-panic-episode-2)
     * 3.2. [Death First Search, Episode 2](#32-death-first-search-episode-2)
     * 3.3. [Chess Cavalry](#33-chess-cavalry)
+    * 3.4. [Electrical Grid](#34-electrical-grid)
 
 ---
 
