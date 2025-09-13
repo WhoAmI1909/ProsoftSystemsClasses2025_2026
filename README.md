@@ -9,10 +9,11 @@
     * 2.1. [Telephone Numbers](#21-telephone-numbers)
     * 2.2. [Pachinko Jackpot](#22-pachinko-jackpot)
     * 2.3. [Don't Panic, Episode 1](#23-dont-panic-episode-1)
-3.  [Задачи Hard](#3-hard)
+3.  [Hard](#3-hard)
     * 3.1. [Don't Panic, Episode 2](#31-dont-panic-episode-2)
     * 3.2. [Death First Search, Episode 2](#32-death-first-search-episode-2)
     * 3.3. [Chess Cavalry](#33-chess-cavalry)
+    * 3.4. [Super Computer](#34-super-computer)
 
 ---
 
@@ -404,3 +405,51 @@ void find_path(vector<string> board, pair<int, int> knight_position, int w, int 
 Если да, то клетка помечается как посещенная и расстояние до нее увеличивается на 1.
 Если клетка является целью, то расстояние до нее вычисляется и выводится на экран.
 Если цель не найдена, выводится сообщение об этом.
+
+#### 3.4. Super Computer
+Решение представлено в файле [super_computer.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/super_computer.cpp).
+
+Ссылка на саму задачу: [Super Computer](https://www.codingame.com/training/hard/super-computer).
+
+Задача заключается в поиске максимального количества операций, кооторые можно выполнить друг за другом.
+
+Решение основано на применении "жадного" алгоритма.
+Для удобства была создана структура `Operation` для хранения информации о каждой операции.
+
+```cpp
+struct Operation {
+    int start;
+    int end;
+    Operation(int s, int duration) : start(s) {
+        end = s + duration - 1;
+    }
+
+    bool operator<(const Operation& other) const {
+        return end < other.end;
+    }
+};
+```
+В конструкторе определяется начало и конец операции.
+Был также переопределен оператор `<` для сравнения операции по концу.
+Это требуется для выполнения сортировке по дате окончания операции.
+
+Основная функция выполнения подсчета максимального количества операций:
+```cpp
+int findMaxNonOverlappingOperations(const vector<Operation>& operations) {
+    if (operations.empty()) return 0;
+
+    int count = 1;
+    int lastEnd = operations[0].end;
+
+    for (size_t i = 1; i < operations.size(); i++) {
+        if (operations[i].start > lastEnd) {
+            count++;
+            lastEnd = operations[i].end;
+        }
+    }
+    return count;
+}
+```
+
+В функции подсчитываются операции, которые начинаются и заканчиваются максимально близко друг к другу.
+Так как пересечения расписаний недопускаются, необходимо выполнить наибольшее количество операций.
