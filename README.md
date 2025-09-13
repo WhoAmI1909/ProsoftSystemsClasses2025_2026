@@ -14,6 +14,7 @@
     * 3.2. [Death First Search, Episode 2](#32-death-first-search-episode-2)
     * 3.3. [Chess Cavalry](#33-chess-cavalry)
     * 3.4. [Super Computer](#34-super-computer)
+    * 3.5. [Electrical Grid](#35-electrical-grid)
 
 ---
 
@@ -453,3 +454,80 @@ int findMaxNonOverlappingOperations(const vector<Operation>& operations) {
 
 В функции подсчитываются операции, которые начинаются и заканчиваются максимально близко друг к другу.
 Так как пересечения расписаний недопускаются, необходимо выполнить наибольшее количество операций.
+#### 3.5. Electrical Grid
+Решение представлено в файле [electrical_grid.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/electrical_grid.cpp).
+
+Ссылка на саму задачу: [Chess Cavalry](https://www.codingame.com/training/hard/electrical-grid).
+
+Данный паззл представляет собой задачу поиска остовного дерева в графах - найти подграф без циклов с минимальным весом ребер.
+
+Для удобства описания и использования данных о связях была создана структура `Link`
+```cpp
+struct Link {
+    int house_1;
+    int house_2;
+    int cost;
+
+    bool operator<(const Link& other) {
+    if (this->house_1 != other.house_1) {
+        return this->house_1 < other.house_1;
+    }
+        return this->house_2 < other.house_2;
+    }
+
+    void print() {
+        cout << this->house_1 << " " << this->house_2 << " " << this->cost << endl;
+    }
+};
+```
+
+В ней реализован метод вывода информации в консоль так, как этого требует задание.
+Также переопределен метод сравнения, который используется только для итогового вывода в отсортированном виде.
+
+Основная функция, которая выполняет поиск путей и вывод подграфа в консоль в требуемом виде:
+```cpp
+void get_minimal_links(vector<Link> links, map<int, int>& initial_components) {    
+    int links_cost = 0;
+    int links_count = 0;
+    vector<Link> necessary_links;
+    
+    for (const Link& link : links) {
+        int root1 = find_root(initial_components, link.house_1);
+        int root2 = find_root(initial_components, link.house_2);
+        
+        if (root1 != root2) {
+            initial_components[root2] = root1;
+            links_cost += link.cost;
+            links_count++;
+            necessary_links.push_back(link);
+        }
+    }
+    
+    cout << links_count << ' ' << links_cost << endl;
+    sort(necessary_links.begin(), necessary_links.end());
+    for(Link link: necessary_links) {
+        link.print();
+    }
+}
+```
+На вход приходит отсортированный список ребер по их весу в порядке возрастания.
+
+Инициализация вспомогательных данных:
+  - общая стоимость ребер;
+  - количество ребер;
+
+Определяется "корень" для каждого узла, это аналог компоненты связности.
+Для этого написана функция `find_root`:
+```cpp
+int find_root(map<int, int>& initial_components, int x) {
+    if (initial_components[x] != x) {
+        initial_components[x] = find_root(initial_components, initial_components[x]);
+    }
+    return initial_components[x];
+}
+```
+В представленном словаре она ище исходный узел, с которого начались все связи.
+
+Если узлы отличаются, то необходимо объединить узлы, то есть добавить связь.
+
+В конце выполняется вывод суммы весов ребер и их общее количество, а также вывод связей в подграфе в отсортированном виде.
