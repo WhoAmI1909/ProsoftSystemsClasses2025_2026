@@ -62,12 +62,16 @@ string formatter(Entry entry, int lengthofline) {
 ```
 Функция `exchange_tab_to_space` заменяет входные символы `>` на пустую строку.
 
+[Перейти к содержанию.](#содержание)
+
 ### 1.2. Logic Gates
 Решение представлено в файле [logic_signals.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/01_Easy/logic_signals.cpp).
 
 Ссылка на саму задачу: [Logic Gates](https://www.codingame.com/training/easy/logic-gates).
 
 Решение основано на поэлементном разборе входящих сигналов, их преобразовании в логическую величину с последующей обработкой логической операции. По имени определяется последовательность входного сигнала. 
+
+[Перейти к содержанию.](#содержание)
 
 ### 2. Medium
 В данном разделе описаны задачи с уровнем `Medium` с сайта codingame.com.
@@ -134,6 +138,8 @@ struct TelephoneNumbers {
 После каждого введенного номера выполняется его обработка и сохранения в дереве.
 В конце основной функции `main` выводится количество узлов в дереве.
 
+[Перейти к содержанию.](#содержание)
+
 #### 2.2. Pachinko Jackpot
 Решение представлено в файле [pachinko_jackpot.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/02_Medium/pachinko_jackpot.cpp).
 
@@ -163,6 +169,8 @@ int max_prize(int **matrix, int dimensions_size, int currRow, int currCol, int s
 
 Проблема данного подхода в том, что с увеличением количества слоев, возрастает время, затрачиваемое функцией для определения максимального выигрыша.
 
+[Перейти к содержанию.](#содержание)
+
 #### 2.3. Don't Panic, Episode 1
 Решение представлено в файле [dont_panic_ep1.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/02_Medium/dont_panic_ep1.cpp).
 
@@ -182,6 +190,8 @@ void AnalyzeClonePos(int pos, int clone_pos, string direction) {
 }
 ```
 Она выполняет анализ местоположения объектов на этаже и текущего направления движения клона.
+
+[Перейти к содержанию.](#содержание)
 
 ### 3. Hard
 
@@ -263,6 +273,7 @@ void AnalyzeElevatorPos(
 
 Из минусов решения, не выполняется поиск оптимального пути до выхода, ввиду чего не проходят все тесты.
 
+[Перейти к содержанию.](#содержание)
 
 #### 3.2. Death First Search, Episode 2
 Решение представлено в файле [death_first_search_ep2.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/death_first_search_ep2.cpp).
@@ -321,6 +332,8 @@ pair<int, int> BFS(vector<Node> &graph, int BobNet_node_id) {
 Приоритет отдается узлам, у которых есть связь с несколькими выходами. Они изолируются в первую очередь.
 
 Поиск заканчивается тогда, когда был найден узел, у которого есть связь с выходом.
+
+[Перейти к содержанию.](#содержание)
 
 #### 3.3 Chess Cavalry
 Решение представлено в файле [chess_cavalry.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/chess_cavalry.cpp).
@@ -407,6 +420,8 @@ void find_path(vector<string> board, pair<int, int> knight_position, int w, int 
 Если клетка является целью, то расстояние до нее вычисляется и выводится на экран.
 Если цель не найдена, выводится сообщение об этом.
 
+[Перейти к содержанию.](#содержание)
+
 #### 3.4. Super Computer
 Решение представлено в файле [super_computer.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/super_computer.cpp).
 
@@ -454,6 +469,9 @@ int findMaxNonOverlappingOperations(const vector<Operation>& operations) {
 
 В функции подсчитываются операции, которые начинаются и заканчиваются максимально близко друг к другу.
 Так как пересечения расписаний недопускаются, необходимо выполнить наибольшее количество операций.
+
+[Перейти к содержанию.](#содержание)
+
 #### 3.5. Electrical Grid
 Решение представлено в файле [electrical_grid.cpp](https://github.com/WhoAmI1909/ProsoftSystemsClasses2025_2026/blob/main/Codingames/03_Hard/electrical_grid.cpp).
 
@@ -531,3 +549,5 @@ int find_root(map<int, int>& initial_components, int x) {
 Если узлы отличаются, то необходимо объединить узлы, то есть добавить связь.
 
 В конце выполняется вывод суммы весов ребер и их общее количество, а также вывод связей в подграфе в отсортированном виде.
+
+[Перейти к содержанию.](#содержание)
