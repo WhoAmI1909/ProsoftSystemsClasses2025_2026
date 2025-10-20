@@ -1,0 +1,50 @@
+     1                                  section .data
+     2 00000000 6F75747075742E7478-         filename db "output.txt", 0     ; variable name, type, string, bytes end
+     2 00000009 7400               
+     3 0000000B 48656C6C6F20576F72-         message db "Hello World", 10
+     3 00000014 6C640A             
+     4                                      msg_len equ $ - message         ;   message length
+     5                                  
+     6                                      ; open flags
+     7                                      O_WRONLY equ 1  ; write only flag
+     8                                      O_TRUNC equ 512 ; erase flag
+     9                                  
+    10                                  section .bss
+    11 00000000 ????????????????            fd resq 1          ; memory for descriptor
+    12                                  
+    13                                  section .text
+    14                                      global _start
+    15                                  
+    16                                  _start:
+    17 00000000 B802000000                  mov rax, 2      ; open
+    18 00000005 488D3D(00000000)            lea rdi, [rel filename] ; adress of file name
+    19 0000000C BE01020000                  mov rsi, O_WRONLY | O_TRUNC
+    20 00000011 0F05                        syscall
+    21                                  
+    22 00000013 4883F800                    cmp rax, 0
+    23 00000017 7C47                        jl error_handler    ; error handler
+    24 00000019 48890425[00000000]          mov [fd], rax       ; save descriptor file    
+    25                                  
+    26 00000021 B801000000                  mov rax, 1          ; write to file
+    27 00000026 488B3C25[00000000]          mov rdi, [fd]       ; first arg - descriptor
+    28 0000002E 48BE-                       mov rsi, message
+    28 00000030 [0B00000000000000] 
+    29 00000038 BA0C000000                  mov rdx, msg_len
+    30 0000003D 0F05                        syscall
+    31                                  
+    32 0000003F 4883F800                    cmp rax, 0
+    33 00000043 7C1B                        jl error_handler
+    34                                  
+    35 00000045 B803000000                  mov rax, 3          ; close file
+    36 0000004A 488B3C25[00000000]          mov rdi, [fd]
+    37 00000052 0F05                        syscall
+    38                                  
+    39 00000054 B83C000000                  mov rax, 60
+    40 00000059 BF00000000                  mov rdi, 0
+    41 0000005E 0F05                        syscall
+    42                                  
+    43                                  error_handler:
+    44 00000060 48F7D8                      neg rax
+    45 00000063 4889C7                      mov rdi, rax
+    46 00000066 B83C000000                  mov rax, 60
+    47 0000006B 0F05                        syscall
