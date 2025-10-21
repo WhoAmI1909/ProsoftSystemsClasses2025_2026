@@ -1,1 +1,4 @@
-Hello world!
+execve("./hello_world_no_txt", ["./hello_world_no_txt"], 0x7ffd5772b3c0 /* 36 vars */) = 0
+write(1, "Hello world!\n", 13)          = 13
+exit(0)                                 = ?
++++ exited with 0 +++

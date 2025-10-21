@@ -1,0 +1,6 @@
+execve("./hello_world", ["./hello_world"], 0x7ffe3a628d60 /* 36 vars */) = 0
+open("output.txt", O_WRONLY|O_TRUNC)    = 3
+write(3, "Hello World\n", 12)           = 12
+close(3)                                = 0
+exit(0)                                 = ?
++++ exited with 0 +++
