@@ -1,29 +1,24 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Build with Clang (MSVC)",
-      "type": "shell",
-      "command": "clang++",
-      "args": [
-        "-fcolor-diagnostics",
-        "-fansi-escape-codes",
-        "--target=x86_64-pc-windows-msvc",
-        "-std=c++20",
-        "-Wall",
-        "-MD",
-        "${file}",
-        "-o",
-        "${fileDirname}/${fileBasenameNoExtension}.exe",
-        "-g",
-        "-O0"
-      ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": ["$gcc"],
-      "detail": "Сборка с Clang для MSVC"
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build with Clang",
+            "type": "shell",
+            "command": "clang++",
+            "args": [
+                "-std=c++20",
+                "-Wall",
+                "-g",
+                "-O0",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        }
+    ]
 }
