@@ -12,5 +12,8 @@
         "set": "cpp",
         "algorithm": "cpp",
         "utility": "cpp"
-    }
+    },
+    "terminal.integrated.commandsToSkipShell": [
+        "-workbench.action.quickOpen",                // Отключает Ctrl+P (и Ctrl+E)
+    ]
 }
