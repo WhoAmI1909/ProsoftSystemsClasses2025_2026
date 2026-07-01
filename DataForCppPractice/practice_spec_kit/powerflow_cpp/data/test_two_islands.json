@@ -1,0 +1,16 @@
+{
+  "base_voltage_kV": 110,
+  "base_power_MVA": 100,
+  "tolerance": 0.001,
+  "max_iterations": 100,
+  "nodes": [
+    {"id": 1, "type": "slack", "voltage_kV": 115},
+    {"id": 2, "type": "load", "power_MW": 30},
+    {"id": 3, "type": "slack", "voltage_kV": 220},
+    {"id": 4, "type": "load", "power_MW": 40}
+  ],
+  "branches": [
+    {"id": 1, "from_node_id": 1, "to_node_id": 2, "resistance_ohm": 5.0},
+    {"id": 2, "from_node_id": 3, "to_node_id": 4, "resistance_ohm": 8.0}
+  ]
+}

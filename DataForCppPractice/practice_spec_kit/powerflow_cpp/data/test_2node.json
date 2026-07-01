@@ -1,0 +1,13 @@
+{
+  "base_voltage_kV": 110,
+  "base_power_MVA": 100,
+  "tolerance": 0.001,
+  "max_iterations": 100,
+  "nodes": [
+    {"id": 1, "name": "Шина", "type": "slack", "voltage_kV": 115},
+    {"id": 2, "name": "Нагрузка", "type": "load", "power_MW": 50}
+  ],
+  "branches": [
+    {"id": 1, "name": "ЛЭП", "from_node_id": 1, "to_node_id": 2, "resistance_ohm": 10.0}
+  ]
+}

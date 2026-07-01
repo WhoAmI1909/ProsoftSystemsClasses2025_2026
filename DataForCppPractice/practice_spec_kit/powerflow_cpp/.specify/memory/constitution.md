@@ -1,18 +1,19 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 0.0.0 (template) → 1.0.0
-  Modified principles: N/A (initial fill from template)
-  Added sections:
-    - Core Principles: I. Modular Architecture, II. Modern C++ Standards,
-      III. Correctness & Test-Driven Verification, IV. Domain Model Fidelity,
-      V. Input/Output Contract & Observability
-    - Technical Constraints
-    - Development Workflow & Quality Gates
-    - Governance
-  Removed sections: None (template placeholders replaced)
+  Version change: 1.0.0 → 1.1.0 → 1.1.1
+  v1.1.0 changes:
+    - II. Modern C++ Standards: язык сообщений об ошибках изменён с английского на русский
+    - V. Input/Output Contract: удалено требование вывода загрузки ветвей в %
+    - Technical Constraints: связность переопределена с единой сети на островную модель
+  v1.1.1 changes (PATCH):
+    - V. Input/Output Contract: имена полей JSON синхронизированы с реальной схемой
+      (power_MW, voltage_kV, from_node_id, to_node_id, resistance_ohm, base_voltage_kV, base_power_MVA)
+    - Уточнена формулировка валидации связности: «в пределах каждого островка»
+  Added sections: None
+  Removed sections: None
   Templates requiring updates:
-    - .specify/templates/plan-template.md     ✅ No changes needed (Constitution Check fills dynamically)
+    - .specify/templates/plan-template.md     ✅ No changes needed
     - .specify/templates/spec-template.md     ✅ No changes needed
     - .specify/templates/tasks-template.md    ✅ No changes needed
     - .specify/templates/checklist-template.md ✅ No changes needed
@@ -47,7 +48,7 @@
 - `auto` для вывода типа, когда тип очевиден из контекста.
 - `snake_case` для имен функций, переменных и пространств имен.
 - `PascalCase` для имен классов и структур.
-- Обработка ошибок через исключения с информативными сообщениями на английском
+- Обработка ошибок через исключения с информативными сообщениями на русском
   языке.
 
 **Rationale**: Единый стандарт кодирования обеспечивает предсказуемость кодовой
@@ -95,19 +96,22 @@
 ### V. Input/Output Contract & Observability
 
 Входные данные MUST приниматься в формате JSON с фиксированной схемой:
-- `nodes`: список узлов с полями `id`, `type` (slack/load/generator),
-  `P` (МВт), `U` (кВ, только для slack).
-- `branches`: список ветвей с полями `id`, `from`, `to`, `R` (Ом).
-- `base_values`: `U_base` (кВ), `S_base` (МВА).
+- `nodes`: список узлов с полями `id`, `name` (опционально), `type`
+  (slack/load/generator), `power_MW` (МВт, для load/generator),
+  `voltage_kV` (кВ, только для slack).
+- `branches`: список ветвей с полями `id`, `name` (опционально),
+  `from_node_id`, `to_node_id`, `resistance_ohm` (Ом).
+- Глобальные параметры: `base_voltage_kV` (кВ), `base_power_MVA` (МВА),
+  `tolerance`, `max_iterations`.
 
 Валидация входного JSON MUST выполняться до начала вычислений: проверка
-связности сети, соответствие количества узлов ограничению (≤20), корректность
-типов полей, отсутствие дублирующихся идентификаторов.
+связности в пределах каждого островка, соответствие количества узлов
+ограничению (≤20), корректность типов полей, отсутствие дублирующихся
+идентификаторов.
 
 Выходные данные MUST включать:
 - Напряжения в узлах (о.е. и кВ).
 - Потоки активной мощности по ветвям (МВт).
-- Загрузка ветвей в % (если указана пропускная способность).
 - Баланс мощностей.
 
 Вывод результатов MUST осуществляться в виде ASCII-таблицы в консоль.
@@ -129,7 +133,11 @@
 - **Тестовый фреймворк**: Catch2 или GoogleTest (на выбор реализации, должно
   быть согласовано в плане).
 - **Размерность сети**: максимум 20 узлов.
-- **Сеть MUST быть связной**: все узлы достижимы от балансирующего.
+- **Сеть MUST быть связной в пределах каждого островка**: каждый связный
+  компонент (островок) сети MUST содержать ровно один балансирующий узел.
+  Все узлы островка MUST быть достижимы от его балансирующего узла.
+  Валидация выполняется изолированно для каждого островка: островки с
+  ошибками пропускаются с предупреждением, остальные рассчитываются.
 - **Структура проекта**:
   ```
   src/       — исходный код (.cpp)
@@ -178,4 +186,4 @@
 секцию «Constitution Check», подтверждающую соответствие предлагаемого
 технического решения принципам конституции.
 
-**Version**: 1.0.0 | **Ratified**: 2026-07-01 | **Last Amended**: 2026-07-01
+**Version**: 1.1.1 | **Ratified**: 2026-07-01 | **Last Amended**: 2026-07-01

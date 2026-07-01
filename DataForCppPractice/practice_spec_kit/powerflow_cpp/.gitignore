@@ -1,0 +1,13 @@
+build/
+*.o
+*.so
+*.a
+*.exe
+*.dll
+.idea/
+*.log
+.env*
+report.txt
+.DS_Store
+*.swp
+*.tmp

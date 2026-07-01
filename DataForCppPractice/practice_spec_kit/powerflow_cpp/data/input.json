@@ -1,0 +1,55 @@
+{
+  "base_voltage_kV": 110,
+  "base_power_MVA": 100,
+  "tolerance": 0.001,
+  "max_iterations": 100,
+  "nodes": [
+    {
+      "id": 1,
+      "name": "Балансирующая шина",
+      "type": "slack",
+      "voltage_kV": 115
+    },
+    {
+      "id": 2,
+      "name": "Нагрузка цех 1",
+      "type": "load",
+      "power_MW": 50
+    },
+    {
+      "id": 3,
+      "name": "Генератор Г1",
+      "type": "generator",
+      "power_MW": 30
+    },
+    {
+      "id": 4,
+      "name": "Транзитный узел",
+      "type": "load",
+      "power_MW": 0
+    }
+  ],
+  "branches": [
+    {
+      "id": 1,
+      "name": "Линия 110 кВ",
+      "from_node_id": 1,
+      "to_node_id": 2,
+      "resistance_ohm": 10.0
+    },
+    {
+      "id": 2,
+      "name": "Кабельная линия",
+      "from_node_id": 2,
+      "to_node_id": 3,
+      "resistance_ohm": 5.0
+    },
+    {
+      "id": 3,
+      "name": "ВЛ 110 кВ",
+      "from_node_id": 1,
+      "to_node_id": 3,
+      "resistance_ohm": 20.0
+    }
+  ]
+}
